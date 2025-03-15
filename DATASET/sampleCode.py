@@ -18,10 +18,13 @@ x_te_sparse = io.mmread('tox21_sparse_test.mtx.gz').tocsc()
 
 # filter out very sparse features
 sparse_col_idx = ((x_tr_sparse > 0).mean(0) > 0.05).A.ravel()
+print(sparse_col_idx.size)
 x_tr = np.hstack([x_tr_dense, x_tr_sparse[:, sparse_col_idx].A])
 x_te = np.hstack([x_te_dense, x_te_sparse[:, sparse_col_idx].A])
 
-
+print(x_tr_dense.shape, x_tr_sparse.shape)
+print(x_tr.shape)
+print(y_tr.shape)
 # Build a random forest model for all twelve assays
 for target in y_tr.columns:
     rows_tr = np.isfinite(y_tr[target]).values
